@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  django:
+    build:
+      context: ./telegram_auth
+      dockerfile: Dockerfile
+    env_file:
+      - ../telegram_auth/telegram_auth/.env
+    container_name: telegram_auth_test_case
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./telegram_auth:/app
+    ports:
+      - "8000:8000"
+
+  bot:
+    build:
+      context: ./tg_auth_bot
+      dockerfile: Dockerfile
+    env_file:
+      - ../telegram_auth/tg_auth_bot/.env
+    container_name: telegram_bot
+    volumes:
+      - ./tg_auth_bot:/bot
+    depends_on:
+      - django

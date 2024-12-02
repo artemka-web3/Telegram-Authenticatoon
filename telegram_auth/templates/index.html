@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        p, button {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005f99;
+        }
+    </style>
+    <script>
+        function loginWithTelegram() {
+            fetch('/telegram-login/')
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = data.bot_url;
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>Добро пожаловать</h1>
+    {% if user.is_authenticated %}
+        <p>Вы вошли как {{ user.username }}</p>
+    {% else %}
+        <button onclick="loginWithTelegram()">Войти через Telegram</button>
+    {% endif %}
+</body>
+</html>
